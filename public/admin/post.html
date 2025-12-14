@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="color-scheme" content="dark" />
+<link rel="stylesheet" href="/assets/styles.css" />
+<title>zentique admin • post</title>
+</head>
+<body>
+  <div class="container">
+    <div class="topbar">
+      <div class="brand">zentique • admin</div>
+      <div class="nav">
+        <a class="pill" href="/">Public</a>
+        <a class="pill" href="/admin/">Create</a>
+        <a class="pill active" href="/admin/post.html">Post</a>
+      </div>
+    </div>
+    <div class="sub">Admin-only view. You can delete posts here.</div>
+
+    <div class="row" style="margin-top:14px">
+      <button id="backBtn" class="btn">← back</button>
+      <div style="display:flex; gap:10px">
+        <a id="publicLink" class="btn" href="/" target="_blank" rel="noopener">Open public</a>
+        <button id="deleteBtn" class="btn" style="border-color: rgba(255,80,80,0.45)">Delete</button>
+      </div>
+    </div>
+
+    <div id="post" style="margin-top:12px"></div>
+
+    <div class="footer">admin post detail</div>
+  </div>
+
+  <script>
+    document.getElementById("backBtn")?.addEventListener("click",()=>{ if (history.length>1) history.back(); else location.href="/admin/"; });
+  </script>
+  <script type="module" src="/assets/admin-post.js"></script>
+</body>
+</html>

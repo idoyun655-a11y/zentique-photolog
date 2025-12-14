@@ -1,0 +1,1 @@
+This project intentionally ships without wrangler.toml so Cloudflare Pages Bindings can be managed in the dashboard.

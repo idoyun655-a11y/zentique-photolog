@@ -69,3 +69,9 @@ CREATE INDEX IF NOT EXISTS idx_media_post_id_created_at ON media(post_id, create
   - never stores originals (client-side resize + watermark)
   - serves only watermarked images
   - disables right-click/drag (weak protection, but reduces casual saving)
+
+
+## Likes & Comments
+- Likes use a browser cookie (`client_id`) to limit one-like-per-device.
+- Comments are public and stored in D1.
+- Admin delete removes media/likes/comments.

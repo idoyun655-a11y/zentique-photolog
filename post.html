@@ -20,12 +20,47 @@
 </div>
 <div class="sub">공개 사진 포토로그입니다. 관리자는 보호됩니다. 스크린샷 방지? 불가능. 워터마크 방지? 어느 정도 가능.</div>
 
-    <button id="backBtn" class="btn">← 뒤로</button>
+    <a id="backBtn" class="btn" href="/">← 뒤로</a>
     <div id="post"></div>
     <div id="comments"></div>
     <div class="footer">게시물 상세</div>
   </div>
-  <script>document.getElementById("backBtn")?.addEventListener("click",()=>{ if (history.length>1) history.back(); else location.href="/"; });</script>
+  <script>
+(function () {
+  const back = document.getElementById("backBtn");
+  if (!back) return;
+
+  back.addEventListener("click", (e) => {
+    const ref = document.referrer;
+
+    try {
+      if (ref) {
+        const u = new URL(ref);
+        const sameOrigin = (u.origin === location.origin);
+        if (sameOrigin) {
+          e.preventDefault();
+
+          // 1) 뒤로가기 시도
+          if (history.length > 1) {
+            const here = location.href;
+            history.back();
+
+            // iOS Safari에서 back이 씹히면 referrer로 강제 이동
+            setTimeout(() => {
+              if (location.href === here) location.href = ref;
+            }, 250);
+          } else {
+            location.href = ref;
+          }
+          return;
+        }
+      }
+    } catch (_) {}
+
+    // same-origin referrer가 아니면 기본 href="/" 동작
+  });
+})();
+</script>
   <script type="module" src="/assets/app.js"></script>
 </body>
 </html>

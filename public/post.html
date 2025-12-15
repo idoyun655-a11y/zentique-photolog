@@ -11,20 +11,63 @@
 <body>
   <div class="container">
     <div class="topbar">
-  <div class="brand">zentique</div>
-  <div class="nav">
-    <a class="pill" href="/">Timeline</a>
-    <a class="pill" href="/photos.html">Photos</a>
-    <a class="pill" href="/admin/">Admin</a>
-  </div>
-</div>
-<div class="sub">Public photolog. Admin is protected. Screenshot-proof? Nope. Watermark-proof? Kinda.</div>
+      <div class="brand">zentique</div>
+      <div class="nav">
+        <a class="pill" href="/">Timeline</a>
+        <a class="pill" href="/photos.html">Photos</a>
+        <a class="pill" href="/admin/">Admin</a>
+      </div>
+    </div>
 
-    <button id="backBtn" class="btn">← back</button>
+    <div class="sub">Public photolog. Admin is protected. Screenshot-proof? Nope. Watermark-proof? Kinda.</div>
+
+    <!-- ✅ button -> link (JS가 실패해도 최소한 / 로는 이동) -->
+    <a id="backBtn" class="btn" href="/">← back</a>
+
     <div id="post"></div>
     <div class="footer">post detail</div>
   </div>
-  <script>document.getElementById("backBtn")?.addEventListener("click",()=>{ if (history.length>1) history.back(); else location.href="/"; });</script>
+
+  <!-- ✅ iPad/Safari 안전 뒤로가기: 같은 사이트 referrer면 그쪽으로, 아니면 / -->
+  <script>
+    (function () {
+      const back = document.getElementById("backBtn");
+      if (!back) return;
+
+      back.addEventListener("click", (e) => {
+        const ref = document.referrer;
+
+        try {
+          if (ref) {
+            const u = new URL(ref);
+            const sameOrigin = (u.origin === location.origin);
+
+            if (sameOrigin) {
+              e.preventDefault();
+
+              // 1) 뒤로가기 시도
+              if (history.length > 1) {
+                const here = location.href;
+                history.back();
+
+                // 일부 Safari에서 back이 씹히면 referrer로 강제 이동
+                setTimeout(() => {
+                  if (location.href === here) location.href = ref;
+                }, 250);
+              } else {
+                // 히스토리 없으면 referrer로
+                location.href = ref;
+              }
+              return;
+            }
+          }
+        } catch (_) {}
+
+        // same-origin referrer가 아니면 기본 href="/" 동작
+      });
+    })();
+  </script>
+
   <script type="module" src="/assets/app.js"></script>
 </body>
 </html>

@@ -1,0 +1,8 @@
+/*
+  Cache-Control: no-cache
+
+/assets/*
+  Cache-Control: no-store
+
+/api/*
+  Cache-Control: no-store
